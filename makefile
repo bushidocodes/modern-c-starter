@@ -2,7 +2,7 @@
 LIBS =
 
 CC     = gcc
-CFLAGS  = -std=c23
+CFLAGS  = -std=c2x
 CFLAGS += -g
 CFLAGS += -Wall
 CFLAGS += -Wextra
@@ -23,7 +23,14 @@ ASANFLAGS += -fno-omit-frame-pointer
 # Unity is vendored and compiled separately to avoid strict-warning noise
 UNITY_CFLAGS = -std=c11 -g -DUNITY_SUPPORT_64
 
-TEST_CFLAGS  = $(CFLAGS)
+TEST_CFLAGS  = -std=c2x
+TEST_CFLAGS += -g
+TEST_CFLAGS += -Wall
+TEST_CFLAGS += -Wextra
+TEST_CFLAGS += -pedantic
+TEST_CFLAGS += -Werror
+TEST_CFLAGS += -Wshadow
+TEST_CFLAGS += -Wmissing-declarations
 TEST_CFLAGS += -DUNITY_SUPPORT_64
 
 SRC_FILES = $(wildcard src/*.c)
