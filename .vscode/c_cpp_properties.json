@@ -2,11 +2,26 @@
   "configurations": [
     {
       "name": "Linux",
-      "includePath": ["${workspaceFolder}/**"],
+      "includePath": ["${workspaceFolder}/src", "${workspaceFolder}/test"],
       "defines": [],
       "compilerPath": "/usr/bin/gcc",
-      "cStandard": "c11",
-      "cppStandard": "c++17",
+      "cStandard": "c23",
+      "intelliSenseMode": "gcc-x64"
+    },
+    {
+      "name": "Mac",
+      "includePath": ["${workspaceFolder}/src", "${workspaceFolder}/test"],
+      "defines": [],
+      "compilerPath": "/usr/bin/clang",
+      "cStandard": "c23",
+      "intelliSenseMode": "clang-x64"
+    },
+    {
+      "name": "Win32",
+      "includePath": ["${workspaceFolder}/src", "${workspaceFolder}/test"],
+      "defines": ["_WIN32"],
+      "compilerPath": "gcc",
+      "cStandard": "c23",
       "intelliSenseMode": "gcc-x64"
     }
   ],

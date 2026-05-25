@@ -1,56 +1,85 @@
-### If you wish to use extra libraries (math.h for instance),
-### add their flags here (-lm in our case) in the "LIBS" variable.
-LIBS = 
+### Add extra libraries here (e.g., -lm for math.h)
+LIBS =
 
-CC		= gcc
-CFLAGS  = -std=c11
+CC     = gcc
+CFLAGS  = -std=c23
 CFLAGS += -g
-# CFLAGS += -DDEBUG
 CFLAGS += -Wall
 CFLAGS += -Wextra
 CFLAGS += -pedantic
 CFLAGS += -Werror
+CFLAGS += -Wshadow
+CFLAGS += -Wformat=2
+CFLAGS += -Wcast-align
+CFLAGS += -Wconversion
+CFLAGS += -fstack-protector-strong
 CFLAGS += -Wmissing-declarations
+# CFLAGS += -DDEBUG
 
-TEST_CFLAGS = $(CFLAGS)
-TEST_CFLAGS += -DUNITY_SUPPORT_64
-
-ASANFLAGS  = -fsanitize=address
+ASANFLAGS  = -fsanitize=address,undefined
 ASANFLAGS += -fno-common
 ASANFLAGS += -fno-omit-frame-pointer
 
+# Unity is vendored and compiled separately to avoid strict-warning noise
+UNITY_CFLAGS = -std=c11 -g -DUNITY_SUPPORT_64
+
+TEST_CFLAGS  = $(CFLAGS)
+TEST_CFLAGS += -DUNITY_SUPPORT_64
+
 SRC_FILES = $(wildcard src/*.c)
-TEST_FILES = $(filter-out src/main.c, $(SRC_FILES)) 
-TEST_FILES += test/vendor/unity.c test/*.c
+OBJ_DIR   = build/obj
+OBJS      = $(patsubst src/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
+DEPS      = $(OBJS:.o=.d)
 
-.PHONY: test
-test: tests.out
-	@./build/tests.out
-	@rm ./build/tests.out
+TEST_SRC   = $(filter-out src/main.c, $(SRC_FILES))
+TEST_UNITS = $(wildcard test/*.c)
 
-.PHONY: memcheck
-memcheck: test/*.c src/*.c src/*.h
-	@mkdir -p ./build
-	@$(CC) $(ASANFLAGS) $(CFLAGS) $(SRC_FILES) -o build/memcheck.out $(LIBS)
-	@./build/memcheck.out
-	@echo "Memory check passed"
+.PHONY: all build run test asan format format-check clean
 
-.PHONY: clean
-clean:
-	@rm -rf build/*
+all: build
 
-tests.out: test/*.c src/*.c src/*.h
-	@mkdir -p ./build
-	@$(CC) $(TEST_CFLAGS) $(TEST_FILES) -o build/tests.out $(LIBS)
+build: build/main.out
 
-build: clean
-	@mkdir -p ./build
-	@$(CC) $(CFLAGS) $(SRC_FILES) -o build/main.out $(LIBS)
-
-run: build
-	@mkdir -p ./build
+run: build/main.out
 	@./build/main.out
 
-format:
-	@clang-format -style=file -i src/*
+test: build/tests.out
+	@./build/tests.out
 
+asan: build/asan-tests.out
+	@./build/asan-tests.out
+	@echo "Address/UB sanitizer check passed"
+
+format:
+	@clang-format -style=file -i src/*.c src/*.h test/*.c
+
+format-check:
+	@clang-format -style=file --dry-run --Werror src/*.c src/*.h test/*.c
+
+clean:
+	@rm -rf build/
+
+build/main.out: $(OBJS)
+	@$(CC) $(CFLAGS) $^ -o $@ $(LIBS)
+
+$(OBJ_DIR)/%.o: src/%.c
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
+
+build/unity.o: test/vendor/unity.c
+	@mkdir -p build
+	@$(CC) $(UNITY_CFLAGS) -c $< -o $@
+
+build/unity-asan.o: test/vendor/unity.c
+	@mkdir -p build
+	@$(CC) $(UNITY_CFLAGS) $(ASANFLAGS) -c $< -o $@
+
+build/tests.out: $(TEST_SRC) $(TEST_UNITS) src/*.h build/unity.o
+	@mkdir -p build
+	@$(CC) $(TEST_CFLAGS) $(TEST_SRC) $(TEST_UNITS) build/unity.o -o $@ $(LIBS)
+
+build/asan-tests.out: $(TEST_SRC) $(TEST_UNITS) src/*.h build/unity-asan.o
+	@mkdir -p build
+	@$(CC) $(ASANFLAGS) $(TEST_CFLAGS) $(TEST_SRC) $(TEST_UNITS) build/unity-asan.o -o $@ $(LIBS)
+
+-include $(DEPS)

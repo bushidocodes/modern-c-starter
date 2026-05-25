@@ -4,7 +4,7 @@
     {
       "type": "shell",
       "label": "build",
-      "command": "/usr/bin/make",
+      "command": "make",
       "args": ["build"],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -21,7 +21,7 @@
     {
       "type": "shell",
       "label": "test",
-      "command": "/usr/bin/make",
+      "command": "make",
       "args": ["test"],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -31,7 +31,7 @@
         "isDefault": true
       },
       "presentation": {
-        "reveal": "never"
+        "reveal": "always"
       }
     }
   ]

@@ -3,15 +3,17 @@
 
 #include "acronym.h"
 
-int
-main()
+int main(void)
 {
-	char *sample  = "Three Letter Acronym";
-	char *acronym = abbreviate(sample);
+    const char *sample  = "Three Letter Acronym";
+    char       *acronym = abbreviate(sample);
 
-	printf("%s yields %s\n", sample, acronym);
+    if (acronym == nullptr) {
+        fprintf(stderr, "abbreviate() returned null\n");
+        return 1;
+    }
 
-	free(acronym);
-
-	return 0;
+    printf("%s yields %s\n", sample, acronym);
+    free(acronym);
+    return 0;
 }
