@@ -1,1 +1,17 @@
-build/*
+# Build artifacts
+build/
+*.o
+*.d
+*.out
+*.obj
+*.exe
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor swap files
+*.swp
+*.swo
+*~
