@@ -1,6 +1,6 @@
 ---
 BasedOnStyle: Mozilla
-Language: C
+Language: Cpp
 IndentWidth: 4
 TabWidth: 4
 UseTab: Never
@@ -18,7 +18,7 @@ AllowShortFunctionsOnASingleLine: None
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
 
-AlwaysBreakAfterReturnType: AllDefinitions
+AlwaysBreakAfterReturnType: None
 
 BinPackArguments: true
 BinPackParameters: true
@@ -60,4 +60,4 @@ SpacesInSquareBrackets: false
 
 PenaltyBreakAssignment: 100
 PenaltyBreakBeforeFirstCallParameter: 1000
-PenaltyReturnTypeOnItsOwnLine: 0
+PenaltyReturnTypeOnItsOwnLine: 200

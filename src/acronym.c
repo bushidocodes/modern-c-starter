@@ -6,12 +6,15 @@
 constexpr int MAX_ACRONYM_LENGTH = 64;
 
 [[nodiscard("result is heap-allocated and must be freed")]]
-char *abbreviate(const char *phrase)
+char *
+abbreviate(const char *phrase)
 {
-    if (phrase == nullptr || phrase[0] == '\0') return nullptr;
+    if (phrase == nullptr || phrase[0] == '\0')
+        return nullptr;
 
     char *result = malloc(MAX_ACRONYM_LENGTH);
-    if (result == nullptr) return nullptr;
+    if (result == nullptr)
+        return nullptr;
 
     int  len      = 0;
     bool new_word = true;

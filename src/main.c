@@ -3,7 +3,8 @@
 
 #include "acronym.h"
 
-int main(void)
+int
+main(void)
 {
     const char *sample  = "Three Letter Acronym";
     char       *acronym = abbreviate(sample);
