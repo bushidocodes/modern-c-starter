@@ -14,6 +14,9 @@ CFLAGS += -Wcast-align
 CFLAGS += -Wconversion
 CFLAGS += -fstack-protector-strong
 CFLAGS += -Wmissing-declarations
+CFLAGS += -Wformat-security
+CFLAGS += -O2
+CFLAGS += -D_FORTIFY_SOURCE=2
 # CFLAGS += -DDEBUG
 
 ASANFLAGS  = -fsanitize=address,undefined
@@ -31,6 +34,9 @@ TEST_CFLAGS += -pedantic
 TEST_CFLAGS += -Werror
 TEST_CFLAGS += -Wshadow
 TEST_CFLAGS += -Wmissing-declarations
+TEST_CFLAGS += -Wformat-security
+TEST_CFLAGS += -O2
+TEST_CFLAGS += -D_FORTIFY_SOURCE=2
 TEST_CFLAGS += -DUNITY_SUPPORT_64
 
 SRC_FILES = $(wildcard src/*.c)
