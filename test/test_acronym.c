@@ -14,7 +14,7 @@ tearDown(void)
 }
 
 static void
-test_abbreviation(char *phrase, char *expected)
+test_abbreviation(const char *phrase, const char *expected)
 {
     char *actual = abbreviate(phrase);
     TEST_ASSERT_EQUAL_STRING(expected, actual);
