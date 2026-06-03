@@ -35,3 +35,7 @@ GitHub Actions runs on every push and pull request:
 - Runs the test suite
 - Checks code formatting with clang-format
 - Runs tests with Address Sanitizer and Undefined Behavior Sanitizer
+
+## License
+
+[MIT](LICENSE)
