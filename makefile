@@ -37,6 +37,7 @@ TEST_CFLAGS += -Wmissing-declarations
 TEST_CFLAGS += -Wformat-security
 TEST_CFLAGS += -O2
 TEST_CFLAGS += -D_FORTIFY_SOURCE=2
+TEST_CFLAGS += -Wwrite-strings
 TEST_CFLAGS += -DUNITY_SUPPORT_64
 
 SRC_FILES = $(wildcard src/*.c)
