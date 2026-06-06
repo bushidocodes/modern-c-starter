@@ -1,7 +1,7 @@
 ### Add extra libraries here (e.g., -lm for math.h)
 LIBS =
 
-CC     = gcc
+CC     ?= gcc
 CFLAGS  = -std=c23
 CFLAGS += -g
 CFLAGS += -Wall
