@@ -22,6 +22,7 @@ CFLAGS += -D_FORTIFY_SOURCE=2
 ASANFLAGS  = -fsanitize=address,undefined
 ASANFLAGS += -fno-common
 ASANFLAGS += -fno-omit-frame-pointer
+ASANFLAGS += -U_FORTIFY_SOURCE
 
 # Unity is vendored and compiled separately to avoid strict-warning noise
 UNITY_CFLAGS = -std=c11 -g -DUNITY_SUPPORT_64
