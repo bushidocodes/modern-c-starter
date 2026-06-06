@@ -1,8 +1,8 @@
 ### Add extra libraries here (e.g., -lm for math.h)
 LIBS =
 
-CC     = gcc
-CFLAGS  = -std=c2x
+CC     ?= gcc
+CFLAGS  = -std=c23
 CFLAGS += -g
 CFLAGS += -Wall
 CFLAGS += -Wextra
@@ -27,7 +27,7 @@ ASANFLAGS += -U_FORTIFY_SOURCE
 # Unity is vendored and compiled separately to avoid strict-warning noise
 UNITY_CFLAGS = -std=c11 -g -DUNITY_SUPPORT_64
 
-TEST_CFLAGS  = -std=c2x
+TEST_CFLAGS  = -std=c23
 TEST_CFLAGS += -g
 TEST_CFLAGS += -Wall
 TEST_CFLAGS += -Wextra
